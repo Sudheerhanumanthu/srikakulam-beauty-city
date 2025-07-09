@@ -5,29 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Click Counter PWA</title>
   <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-  <h1>Click Counter</h1>
-  <p>You've clicked the button:</p>
+  <h1>Click Counter PWA</h1>
+  <p>You’ve clicked the button:</p>
   <h2 id="count">0</h2>
   <button onclick="increment()">Click Me!</button>
 
+  <br><br>
+
+  <button id="installBtn" hidden>Add to Home Screen</button>
+
   <script>
-    // Load count from localStorage if it exists
+    // Click counter logic
     let count = localStorage.getItem('clickCount') || 0;
     document.getElementById('count').textContent = count;
 
     function increment() {
       count++;
       document.getElementById('count').textContent = count;
-      localStorage.setItem('clickCount', count); // Save to storage
+      localStorage.setItem('clickCount', count);
     }
 
-    // Register service worker
+    // Service Worker registration
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registered!'));
+        .then(() => console.log('Service Worker registered!'))
+        .catch(err => console.log('Service Worker error:', err));
     }
+
+    // Handle install prompt
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('beforeinstallprompt fired');
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').hidden = false;
+    });
+
+    document.getElementById('installBtn').addEventListener('click', () => {
+      document.getElementById('installBtn').hidden = true;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        deferredPrompt = null;
+      });
+    });
   </script>
 </body>
 </html>
