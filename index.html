@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My beautiful city</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Click Counter PWA</title>
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-    <h1>Welcome to visitors!</h1>
-    <p>some beautiful  photos:</p>
-    <img src="WhatsApp Image 2024-12-30 at 21.00.42_fe1011d8.jpg" alt="A description of the photo" width="300">
-    <img src="WhatsApp Image 2024-12-30 at 21.00.41_7ca5d5b9.jpg" alt="Another description" width="300">
+  <h1>Click Counter</h1>
+  <p>You've clicked the button:</p>
+  <h2 id="count">0</h2>
+  <button onclick="increment()">Click Me!</button>
+
+  <script>
+    // Load count from localStorage if it exists
+    let count = localStorage.getItem('clickCount') || 0;
+    document.getElementById('count').textContent = count;
+
+    function increment() {
+      count++;
+      document.getElementById('count').textContent = count;
+      localStorage.setItem('clickCount', count); // Save to storage
+    }
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registered!'));
+    }
+  </script>
 </body>
 </html>
