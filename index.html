@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Click Counter PWA</title>
+  <title>Srikakulam Beauty City</title>
   <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4CAF50" />
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
       padding: 2rem;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      color: #4CAF50;
     }
     button {
       font-size: 1.2rem;
@@ -27,8 +32,8 @@
   </style>
 </head>
 <body>
-  <h1>Click Counter PWA</h1>
-  <p>You’ve clicked the button:</p>
+  <h1>Srikakulam Beauty City</h1>
+  <p>You've clicked the button:</p>
   <h2 id="count">0</h2>
   <button onclick="increment()">Click Me!</button>
 
@@ -47,7 +52,7 @@
       localStorage.setItem('clickCount', count);
     }
 
-    // Service Worker registration
+    // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('Service Worker registered!'))
@@ -69,9 +74,9 @@
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
+          console.log('User accepted the install prompt');
         } else {
-          console.log('User dismissed the A2HS prompt');
+          console.log('User dismissed the install prompt');
         }
         deferredPrompt = null;
       });
