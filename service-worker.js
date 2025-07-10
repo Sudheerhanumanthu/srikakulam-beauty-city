@@ -3,7 +3,8 @@ self.addEventListener('install', event => {
     caches.open('v1').then(cache => {
       return cache.addAll([
         'index.html',
-        'manifest.json'
+        'manifest.json',
+        'https://i.ibb.co/V6tRbh9/Lamborghini-Wallpaper.jpg'
       ]);
     })
   );
